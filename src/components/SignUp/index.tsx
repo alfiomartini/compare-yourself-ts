@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "../Button";
 import { useState } from "react";
 
 export const SignUp = () => {
@@ -49,7 +50,7 @@ export const SignUp = () => {
           value={confirmPwd}
         />
       </div>
-      <button type="submit">SignUp</button>
+      <Button>SignUp</Button>
     </form>
   );
 };
