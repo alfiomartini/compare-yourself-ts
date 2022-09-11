@@ -2,7 +2,12 @@ import React from "react";
 import { Button } from "../Button";
 import { useState } from "react";
 import { BsFillInfoCircleFill } from "react-icons/bs";
+import passwordValidator from "password-validator";
 import ReactTooltip from "react-tooltip";
+
+const schema = new passwordValidator();
+
+schema.is().min(8).has().letters().has().digits();
 
 export const SignUp = () => {
   const [username, setUsername] = useState("");
@@ -35,7 +40,13 @@ export const SignUp = () => {
     e.preventDefault();
     if (password !== confirmPwd) {
       alert("Password confirmation failed");
+      clear();
       return;
+    }
+
+    const validate = schema.validate(password);
+    if (!validate) {
+      alert("Password must contain letter and digits. Minimum length: 8");
     }
     clear();
   };
@@ -78,7 +89,7 @@ export const SignUp = () => {
           />
           <BsFillInfoCircleFill
             className="icon-info"
-            data-tip="Characters, numbers. Min: 8"
+            data-tip="Letter, numbers, minimum length: 8"
             onMouseOver={() => showToolTip(true)}
             onMouseOut={() => {
               showToolTip(false);
