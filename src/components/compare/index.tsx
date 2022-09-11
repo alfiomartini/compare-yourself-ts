@@ -34,7 +34,7 @@ export const Compare = () => {
         <label htmlFor="age">Age</label>
         <input
           type="text"
-          placeholder="age"
+          placeholder=""
           name="age"
           id="age"
           value={age}
