@@ -1,17 +1,33 @@
 .form-group {
   padding: 20px;
   border: 1px solid black;
-  width: 400px;
+  width: 440px;
   border-radius: 10px;
+  margin: 20px auto;
+  background-color: #303030;
 }
+
 .form-control label {
   display: block;
-  margin: 5px 0;
+  margin: 10px 0;
+  color: whitesmoke;
 }
 
 .form-control input {
   padding: 5px;
-  width: 100%;
+  width: 90%;
   border: 1px solid gray;
   border-radius: 5px;
+  margin-right: 10px;
+}
+
+.password-block {
+  display: flex;
+  align-items: center;
+}
+
+.icon-info {
+  color: whitesmoke;
+  width: 20px;
+  height: 20px;
 }

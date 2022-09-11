@@ -1,15 +1,23 @@
 import React from "react";
-import "./index.css";
+import "./styles.css";
 
 interface ButtonType {
   color?: string;
   children: React.ReactNode;
+  width?: string;
 }
+
+let style = {};
+
 export const Button = (props: ButtonType) => {
-  const { children } = props;
+  const { children, width } = props;
+  style = width ? { ...style, width: width } : { ...style };
+
   return (
     <div>
-      <button className="btn">{children}</button>
+      <button className="btn" style={style}>
+        {children}
+      </button>
     </div>
   );
 };
