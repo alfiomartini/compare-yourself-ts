@@ -1,10 +1,10 @@
 .btn {
-  width: 100px;
   padding: 5px 10px;
   color: whitesmoke;
   background-color: black;
   margin: 20px 0 10px 0;
   border-radius: 5px;
+  border: none;
   text-align: center;
 }
 

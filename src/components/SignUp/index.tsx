@@ -4,6 +4,7 @@ import { useState } from "react";
 import { BsFillInfoCircleFill } from "react-icons/bs";
 import passwordValidator from "password-validator";
 import ReactTooltip from "react-tooltip";
+import { Token } from "../Token";
 
 const schema = new passwordValidator();
 
@@ -15,6 +16,7 @@ export const SignUp = () => {
   const [password, setPassword] = useState("");
   const [confirmPwd, setConfirmPwd] = useState("");
   const [toolTip, showToolTip] = useState(false);
+  const [showToken, setShowToken] = useState(false);
 
   const clear = () => {
     setUsername("");
@@ -32,6 +34,7 @@ export const SignUp = () => {
   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
+
   const handleConfirmPwd = (e: React.ChangeEvent<HTMLInputElement>) => {
     setConfirmPwd(e.target.value);
   };
@@ -52,64 +55,75 @@ export const SignUp = () => {
   };
 
   return (
-    <form className="form-group" onSubmit={handleSubmit}>
-      {toolTip && <ReactTooltip effect="solid" />}
-      <div className="form-control">
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          placeholder="username"
-          name="username"
-          id="username"
-          value={username}
-          onChange={handleUsername}
-        />
-      </div>
-      <div className="form-control">
-        <label htmlFor="email">Email</label>
-        <input
-          type="text"
-          placeholder="email"
-          name="email"
-          id="email"
-          value={email}
-          onChange={handleEmail}
-        />
-      </div>
-      <div className="form-control">
-        <label htmlFor="password">Password</label>
-        <div className="password-block">
+    <>
+      <form className="form-group" onSubmit={handleSubmit}>
+        {toolTip && <ReactTooltip effect="solid" />}
+        <div className="form-control">
+          <label htmlFor="username">Username</label>
           <input
-            type="password"
-            name="password"
-            id="password"
-            placeholder="password"
-            value={password}
-            onChange={handlePassword}
-          />
-          <BsFillInfoCircleFill
-            className="icon-info"
-            data-tip="Letter, numbers, minimum length: 8"
-            onMouseOver={() => showToolTip(true)}
-            onMouseOut={() => {
-              showToolTip(false);
-              setTimeout(() => showToolTip(true), 50);
-            }}
+            type="text"
+            placeholder="username"
+            name="username"
+            id="username"
+            value={username}
+            onChange={handleUsername}
           />
         </div>
-      </div>
-      <div className="form-control">
-        <label htmlFor="confirmPwd">Confirm Password</label>
-        <input
-          type="password"
-          name="confirmPwd"
-          id="confirmPwd"
-          placeholder="confirm password"
-          value={confirmPwd}
-          onChange={handleConfirmPwd}
-        />
-      </div>
-      <Button width="90%">Sign Up</Button>
-    </form>
+        <div className="form-control">
+          <label htmlFor="email">Email</label>
+          <input
+            type="text"
+            placeholder="email"
+            name="email"
+            id="email"
+            value={email}
+            onChange={handleEmail}
+          />
+        </div>
+        <div className="form-control">
+          <label htmlFor="password">Password</label>
+          <div className="password-block">
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="password"
+              value={password}
+              onChange={handlePassword}
+            />
+            <BsFillInfoCircleFill
+              className="icon-info"
+              data-tip="Letter, numbers, minimum length: 8"
+              onMouseOver={() => showToolTip(true)}
+              onMouseOut={() => {
+                showToolTip(false);
+                setTimeout(() => showToolTip(true), 50);
+              }}
+            />
+          </div>
+        </div>
+        <div className="form-control">
+          <label htmlFor="confirmPwd">Confirm Password</label>
+          <input
+            type="password"
+            name="confirmPwd"
+            id="confirmPwd"
+            placeholder="confirm password"
+            value={confirmPwd}
+            onChange={handleConfirmPwd}
+          />
+        </div>
+        <Button width="90%">Sign Up</Button>
+      </form>
+      <Button
+        width="140px"
+        handleClick={() => {
+          setShowToken(!showToken);
+        }}
+      >
+        Confirm Token
+      </Button>
+      {showToken && <Token />}
+    </>
   );
 };

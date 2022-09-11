@@ -6,3 +6,10 @@ export interface UserType {
 export interface NavbarType {
   user: UserType | null;
 }
+
+export interface ButtonType {
+  color?: string;
+  children: React.ReactNode;
+  width?: string;
+  handleClick?: () => void;
+}
