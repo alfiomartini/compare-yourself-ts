@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { Compare } from "./components/compare";
+import { Compare } from "./components/Compare";
 import { SignUp } from "./components/SignUp";
 import { SignIn } from "./components/SignIn";
 
