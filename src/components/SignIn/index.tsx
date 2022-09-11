@@ -73,7 +73,9 @@ export const SignIn = () => {
           />
         </div>
       </div>
-      <Button width="90%">Sign In</Button>
+      <Button width="90%" type={"submit"}>
+        Sign In
+      </Button>
     </form>
   );
 };

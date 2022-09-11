@@ -2,15 +2,17 @@ import React from "react";
 import "./styles.css";
 import { ButtonType } from "../../types";
 
-let style = {};
-
-export const Button = (props: ButtonType) => {
-  const { children, width, handleClick } = props;
-  style = width ? { ...style, width: width } : { ...style };
+export const Button = ({
+  width = "140px",
+  handleClick = () => {},
+  children,
+  type = "button",
+}: ButtonType) => {
+  const style = { width: width };
 
   return (
     <div>
-      <button className="btn" style={style} onClick={handleClick}>
+      <button type={type} className="btn" style={style} onClick={handleClick}>
         {children}
       </button>
     </div>

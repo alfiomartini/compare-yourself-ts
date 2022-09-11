@@ -63,7 +63,9 @@ export const Compare = () => {
           onChange={handleIncome}
         />
       </div>
-      <Button width="90%">Submit</Button>
+      <Button width="90%" type={"submit"}>
+        Submit
+      </Button>
     </form>
   );
 };

@@ -113,7 +113,9 @@ export const SignUp = () => {
             onChange={handleConfirmPwd}
           />
         </div>
-        <Button width="90%">Sign Up</Button>
+        <Button width="90%" type={"submit"}>
+          Sign Up
+        </Button>
       </form>
       <Button
         width="140px"

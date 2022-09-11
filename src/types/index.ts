@@ -12,4 +12,5 @@ export interface ButtonType {
   children: React.ReactNode;
   width?: string;
   handleClick?: () => void;
+  type?: "button" | "submit" | "reset" | undefined;
 }
