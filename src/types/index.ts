@@ -8,7 +8,7 @@ export interface UserType {
 }
 
 export interface NavbarType {
-  isAuthenticated: boolean;
+  accessToken: string;
 }
 
 export type stateAction<T> = React.Dispatch<React.SetStateAction<T>>;
@@ -16,6 +16,10 @@ export type stateAction<T> = React.Dispatch<React.SetStateAction<T>>;
 export interface SignUpType {
   setUser: stateAction<CognitoUser | undefined>;
   user: CognitoUser | undefined;
+}
+
+export interface SignInType {
+  setAccessToken: stateAction<string>;
 }
 
 export interface TokenType {

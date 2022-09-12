@@ -10,16 +10,17 @@ import { CognitoUser } from "amazon-cognito-identity-js";
 
 export function App() {
   const [user, setUser] = useState<CognitoUser | undefined>(undefined);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [accessToken, setAccessToken] = useState("");
 
   return (
     <BrowserRouter>
       <div className="App">
-        <Navbar isAuthenticated={isAuthenticated} />
+        <Navbar accessToken={accessToken} />
         <div className="container">
           <Switch>
             <Route path="/signin">
-              <SignIn />
+              <SignIn setAccessToken={setAccessToken} />
             </Route>
             <Route path="/signup">
               <SignUp setUser={setUser} user={user} />

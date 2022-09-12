@@ -4,12 +4,19 @@ import { useState } from "react";
 import { BsFillInfoCircleFill } from "react-icons/bs";
 import passwordValidator from "password-validator";
 import ReactTooltip from "react-tooltip";
+import {
+  CognitoUserPool,
+  CognitoUser,
+  AuthenticationDetails,
+} from "amazon-cognito-identity-js";
+import { poolData } from "../../utils";
+import { SignInType } from "../../types";
 
 const schema = new passwordValidator();
 
 schema.is().min(8).has().letters().has().digits();
 
-export const SignIn = () => {
+export const SignIn = ({ setAccessToken }: SignInType) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [toolTip, showToolTip] = useState(false);
@@ -34,7 +41,32 @@ export const SignIn = () => {
     if (!validate) {
       alert("Password must contain letter and digits. Minimum length: 8");
     }
-    clear();
+
+    const authenticationData = {
+      Username: username,
+      Password: password,
+    };
+
+    const authenticationDetails = new AuthenticationDetails(authenticationData);
+
+    const userPool = new CognitoUserPool(poolData);
+    const userData = {
+      Username: username,
+      Pool: userPool,
+    };
+
+    const cognitoUser = new CognitoUser(userData);
+    cognitoUser.authenticateUser(authenticationDetails, {
+      onSuccess: (result) => {
+        const accessToken = result.getAccessToken().getJwtToken();
+        setAccessToken(accessToken);
+        clear();
+      },
+      onFailure: (err) => {
+        alert(err.message || JSON.stringify(err));
+        clear();
+      },
+    });
   };
 
   return (

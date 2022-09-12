@@ -31,9 +31,7 @@ export const Token = ({ user }: TokenType) => {
       Pool: userPool,
     };
 
-    console.log("userData", userData);
     const cognitoUser = new CognitoUser(userData);
-    console.log("token", token);
     cognitoUser.confirmRegistration(token, true, function (err, result) {
       if (err) {
         alert(err.message || JSON.stringify(err));
@@ -41,7 +39,6 @@ export const Token = ({ user }: TokenType) => {
         return;
       }
       alert("Sign up successful");
-      console.log("call result", result);
       clear();
     });
   };

@@ -83,8 +83,6 @@ export const SignUp = ({ setUser, user }: SignUpType) => {
         }
         const cognitoUser = result?.user;
         setUser(cognitoUser);
-        console.log("cognito User", cognitoUser);
-        console.log("user name is " + cognitoUser?.getUsername());
         clear();
       }
     );
