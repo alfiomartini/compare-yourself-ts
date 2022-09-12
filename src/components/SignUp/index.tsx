@@ -5,18 +5,35 @@ import { BsFillInfoCircleFill } from "react-icons/bs";
 import passwordValidator from "password-validator";
 import ReactTooltip from "react-tooltip";
 import { Token } from "../Token";
+import { poolData } from "../../utils";
+import {
+  CognitoUserPool,
+  CognitoUserAttribute,
+} from "amazon-cognito-identity-js";
+import { SignUpType } from "../../types";
 
 const schema = new passwordValidator();
+const userPool = new CognitoUserPool(poolData);
+
+const attributeList: CognitoUserAttribute[] = [];
 
 schema.is().min(8).has().letters().has().digits();
 
-export const SignUp = () => {
+export const SignUp = ({ setUser, user }: SignUpType) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPwd, setConfirmPwd] = useState("");
   const [toolTip, showToolTip] = useState(false);
   const [showToken, setShowToken] = useState(false);
+
+  const dataEmail = {
+    Name: "email",
+    Value: email,
+  };
+
+  const attributeEmail = new CognitoUserAttribute(dataEmail);
+  attributeList.push(attributeEmail);
 
   const clear = () => {
     setUsername("");
@@ -51,7 +68,26 @@ export const SignUp = () => {
     if (!validate) {
       alert("Password must contain letter and digits. Minimum length: 8");
     }
-    clear();
+    userPool.signUp(
+      username,
+      password,
+      attributeList,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      null,
+      function (err, result) {
+        if (err) {
+          alert(err.message || JSON.stringify(err));
+          clear();
+          return;
+        }
+        const cognitoUser = result?.user;
+        setUser(cognitoUser);
+        console.log("cognito User", cognitoUser);
+        console.log("user name is " + cognitoUser?.getUsername());
+        clear();
+      }
+    );
   };
 
   return (
@@ -125,7 +161,7 @@ export const SignUp = () => {
       >
         Confirm Token
       </Button>
-      {showToken && <Token />}
+      {showToken && <Token user={user} />}
     </>
   );
 };

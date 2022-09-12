@@ -1,8 +1,12 @@
 import React from "react";
 import { Button } from "../Button";
 import { useState } from "react";
+import { poolData } from "../../utils";
+import { CognitoUserPool, CognitoUser } from "amazon-cognito-identity-js";
 
-export const Token = () => {
+import { TokenType } from "../../types";
+
+export const Token = ({ user }: TokenType) => {
   const [username, setUsername] = useState("");
   const [token, setToken] = useState("");
 
@@ -21,7 +25,25 @@ export const Token = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    clear();
+    const userPool = new CognitoUserPool(poolData);
+    const userData = {
+      Username: user?.getUsername() as string,
+      Pool: userPool,
+    };
+
+    console.log("userData", userData);
+    const cognitoUser = new CognitoUser(userData);
+    console.log("token", token);
+    cognitoUser.confirmRegistration(token, true, function (err, result) {
+      if (err) {
+        alert(err.message || JSON.stringify(err));
+        clear();
+        return;
+      }
+      alert("Sign up successful");
+      console.log("call result", result);
+      clear();
+    });
   };
 
   return (
@@ -48,7 +70,9 @@ export const Token = () => {
           onChange={handleToken}
         />
       </div>
-      <Button width="90%">Submit</Button>
+      <Button width="90%" type={"submit"}>
+        Submit
+      </Button>
     </form>
   );
 };

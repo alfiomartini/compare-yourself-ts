@@ -6,22 +6,23 @@ import { SignIn } from "./components/SignIn";
 import { Navbar } from "./components/Navbar";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { useState } from "react";
-import { UserType } from "./types";
+import { CognitoUser } from "amazon-cognito-identity-js";
 
 export function App() {
-  const [user, setUser] = useState<UserType | null>(null);
+  const [user, setUser] = useState<CognitoUser | undefined>(undefined);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   return (
     <BrowserRouter>
       <div className="App">
-        <Navbar user={user} />
+        <Navbar isAuthenticated={isAuthenticated} />
         <div className="container">
           <Switch>
             <Route path="/signin">
               <SignIn />
             </Route>
             <Route path="/signup">
-              <SignUp />
+              <SignUp setUser={setUser} user={user} />
             </Route>
             <Route path="/">
               <Compare />
