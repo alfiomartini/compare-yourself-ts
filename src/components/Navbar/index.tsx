@@ -3,32 +3,36 @@ import { Link } from "react-router-dom";
 import "./styles.css";
 import { NavbarType } from "../../types";
 
-export const Navbar = ({ user, setUser }: NavbarType) => {
+export const Navbar = ({
+  isAuthenticated,
+  setAuthentication,
+  user,
+}: NavbarType) => {
   return (
     <div className="navbar">
       <div className="logo">CY</div>
-      {user && (
+      {isAuthenticated && (
         <Link to="/compare" className="link">
           Compare You
         </Link>
       )}
-      {!user && (
+      {!isAuthenticated && (
         <Link to="/signin" className="link">
           Sign In
         </Link>
       )}
-      {!user && (
+      {!isAuthenticated && (
         <Link to="/signup" className="link">
           Sign Up
         </Link>
       )}
-      {user && (
+      {isAuthenticated && (
         <Link
           to="/signin"
           className="link"
           onClick={() => {
-            user.signOut();
-            setUser(null);
+            user && user.signOut();
+            setAuthentication(null);
           }}
         >
           Sign Out

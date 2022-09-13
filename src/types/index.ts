@@ -10,14 +10,15 @@ export interface UserType {
 }
 
 export interface NavbarType {
+  isAuthenticated: boolean;
+  setAuthentication: (user: CognitoUser | null) => void;
   user: CognitoUser | null;
-  setUser: stateAction<CognitoUser | null>;
 }
 
 export interface SignUpType {}
 
 export interface SignInType {
-  setUser: stateAction<CognitoUser | null>;
+  setAuthentication: (user: CognitoUser | null) => void;
 }
 
 export interface TokenType {}

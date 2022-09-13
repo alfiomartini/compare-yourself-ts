@@ -17,7 +17,7 @@ const schema = new passwordValidator();
 
 schema.is().min(8).has().letters().has().digits();
 
-export const SignIn = ({ setUser }: SignInType) => {
+export const SignIn = ({ setAuthentication }: SignInType) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [toolTip, showToolTip] = useState(false);
@@ -62,7 +62,7 @@ export const SignIn = ({ setUser }: SignInType) => {
     cognitoUser.authenticateUser(authenticationDetails, {
       onSuccess: (result) => {
         const user = userPool.getCurrentUser();
-        setUser(user);
+        setAuthentication(user);
         history.push("/compare");
         clear();
       },
