@@ -2,18 +2,33 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./styles.css";
 import { NavbarType } from "../../types";
+import ReactTooltip from "react-tooltip";
+import { useState } from "react";
 
 export const Navbar = ({
   isAuthenticated,
   setAuthentication,
   user,
 }: NavbarType) => {
+  const [toolTip, showToolTip] = useState(false);
+
   return (
     <div className="navbar">
-      <div className="logo">CY</div>
+      {toolTip && <ReactTooltip place="bottom" />}
+      <div
+        className="logo"
+        data-tip="Compare yourself: age, height, income"
+        onMouseOver={() => showToolTip(true)}
+        onMouseOut={() => {
+          showToolTip(false);
+          setTimeout(() => showToolTip(true), 50);
+        }}
+      >
+        CY
+      </div>
       {isAuthenticated && (
         <Link to="/compare" className="link">
-          Compare You
+          Compare
         </Link>
       )}
       {!isAuthenticated && (

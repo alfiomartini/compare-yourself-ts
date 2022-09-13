@@ -11,8 +11,6 @@ import { Route, Switch } from "react-router-dom";
 export function App() {
   const [user, setUser] = useState<CognitoUser | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  console.log("current user", user);
-  console.log("isAuthenticated", isAuthenticated);
 
   const setAuthentication = (user: CognitoUser | null) => {
     setUser(user);
@@ -40,7 +38,7 @@ export function App() {
           <Route path="/signin">
             <SignIn setAuthentication={setAuthentication} />
           </Route>
-          <Route exact path="/signup">
+          <Route path="/signup">
             <SignUp />
           </Route>
           <Route path="/compare">
