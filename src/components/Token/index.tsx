@@ -4,9 +4,7 @@ import { useState } from "react";
 import { poolData } from "../../utils";
 import { CognitoUserPool, CognitoUser } from "amazon-cognito-identity-js";
 
-import { TokenType } from "../../types";
-
-export const Token = ({ user }: TokenType) => {
+export const Token = () => {
   const [username, setUsername] = useState("");
   const [token, setToken] = useState("");
 
@@ -27,7 +25,7 @@ export const Token = ({ user }: TokenType) => {
     e.preventDefault();
     const userPool = new CognitoUserPool(poolData);
     const userData = {
-      Username: user?.getUsername() as string,
+      Username: username,
       Pool: userPool,
     };
 

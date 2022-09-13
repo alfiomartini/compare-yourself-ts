@@ -11,15 +11,18 @@ import {
 } from "amazon-cognito-identity-js";
 import { poolData } from "../../utils";
 import { SignInType } from "../../types";
+import { useHistory } from "react-router-dom";
 
 const schema = new passwordValidator();
 
 schema.is().min(8).has().letters().has().digits();
 
-export const SignIn = ({ setAccessToken }: SignInType) => {
+export const SignIn = ({ setUser }: SignInType) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [toolTip, showToolTip] = useState(false);
+
+  const history = useHistory();
 
   const clear = () => {
     setUsername("");
@@ -58,8 +61,9 @@ export const SignIn = ({ setAccessToken }: SignInType) => {
     const cognitoUser = new CognitoUser(userData);
     cognitoUser.authenticateUser(authenticationDetails, {
       onSuccess: (result) => {
-        const accessToken = result.getAccessToken().getJwtToken();
-        setAccessToken(accessToken);
+        const user = userPool.getCurrentUser();
+        setUser(user);
+        history.push("/compare");
         clear();
       },
       onFailure: (err) => {

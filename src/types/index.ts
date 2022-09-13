@@ -1,6 +1,8 @@
 import React from "react";
 import { CognitoUser } from "amazon-cognito-identity-js";
 
+export type stateAction<T> = React.Dispatch<React.SetStateAction<T>>;
+
 export interface UserType {
   username: string;
   email: string;
@@ -8,23 +10,17 @@ export interface UserType {
 }
 
 export interface NavbarType {
-  accessToken: string;
+  user: CognitoUser | null;
+  setUser: stateAction<CognitoUser | null>;
 }
 
-export type stateAction<T> = React.Dispatch<React.SetStateAction<T>>;
-
-export interface SignUpType {
-  setUser: stateAction<CognitoUser | undefined>;
-  user: CognitoUser | undefined;
-}
+export interface SignUpType {}
 
 export interface SignInType {
-  setAccessToken: stateAction<string>;
+  setUser: stateAction<CognitoUser | null>;
 }
 
-export interface TokenType {
-  user: CognitoUser | undefined;
-}
+export interface TokenType {}
 export interface ButtonType {
   color?: string;
   children: React.ReactNode;

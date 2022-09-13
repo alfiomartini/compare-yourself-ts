@@ -10,7 +10,6 @@ import {
   CognitoUserPool,
   CognitoUserAttribute,
 } from "amazon-cognito-identity-js";
-import { SignUpType } from "../../types";
 
 const schema = new passwordValidator();
 const userPool = new CognitoUserPool(poolData);
@@ -19,7 +18,7 @@ const attributeList: CognitoUserAttribute[] = [];
 
 schema.is().min(8).has().letters().has().digits();
 
-export const SignUp = ({ setUser, user }: SignUpType) => {
+export const SignUp = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -80,10 +79,10 @@ export const SignUp = ({ setUser, user }: SignUpType) => {
           alert(err.message || JSON.stringify(err));
           clear();
           return;
+        } else {
+          alert("Confirm your sign up with the token sent to your email");
+          clear();
         }
-        const cognitoUser = result?.user;
-        setUser(cognitoUser);
-        clear();
       }
     );
   };
@@ -159,7 +158,7 @@ export const SignUp = ({ setUser, user }: SignUpType) => {
       >
         Confirm Token
       </Button>
-      {showToken && <Token user={user} />}
+      {showToken && <Token />}
     </>
   );
 };
