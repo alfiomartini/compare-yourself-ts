@@ -3,6 +3,7 @@ import { Button } from "../Button";
 import { useState } from "react";
 import { POST_URL } from "../../utils";
 import { CompareType } from "../../types";
+import { doFetch } from "../../utils";
 
 export const Compare = ({ authorization }: CompareType) => {
   const [age, setAge] = useState("");
@@ -25,7 +26,7 @@ export const Compare = ({ authorization }: CompareType) => {
     setIncome(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("authorization", authorization);
     const body = {
@@ -33,17 +34,26 @@ export const Compare = ({ authorization }: CompareType) => {
       height: parseInt(height),
       income: parseInt(income),
     };
-    fetch(POST_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: authorization,
-      },
-      body: JSON.stringify(body),
-    })
-      .then((resp) => resp.json())
-      .then((json) => console.log(json))
-      .catch((error) => console.log(error.message));
+
+    try {
+      const resp = await doFetch(POST_URL, "POST", authorization, body);
+      const json = await resp.json();
+      console.log(json);
+    } catch (error) {
+      console.log(error);
+    }
+
+    // fetch(POST_URL, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: authorization,
+    //   },
+    //   body: JSON.stringify(body),
+    // })
+    //   .then((resp) => resp.json())
+    //   .then((json) => console.log(json))
+    //   .catch((error) => console.log(error.message));
     clear();
   };
 
