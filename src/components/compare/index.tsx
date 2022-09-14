@@ -1,8 +1,10 @@
 import React from "react";
 import { Button } from "../Button";
 import { useState } from "react";
+import { POST_URL } from "../../utils";
+import { CompareType } from "../../types";
 
-export const Compare = () => {
+export const Compare = ({ authorization }: CompareType) => {
   const [age, setAge] = useState("");
   const [height, setHeight] = useState("");
   const [income, setIncome] = useState("");
@@ -25,6 +27,23 @@ export const Compare = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log("authorization", authorization);
+    const body = {
+      age: parseInt(age),
+      height: parseInt(height),
+      income: parseInt(income),
+    };
+    fetch(POST_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: authorization,
+      },
+      body: JSON.stringify(body),
+    })
+      .then((resp) => resp.json())
+      .then((json) => console.log(json))
+      .catch((error) => console.log(error.message));
     clear();
   };
 

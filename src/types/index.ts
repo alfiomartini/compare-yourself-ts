@@ -9,6 +9,12 @@ export interface UserType {
   password: string;
 }
 
+export interface PostType {
+  age: number;
+  height: number;
+  income: number;
+}
+
 export interface NavbarType {
   isAuthenticated: boolean;
   setAuthentication: (user: CognitoUser | null) => void;
@@ -21,7 +27,12 @@ export interface SignInType {
   setAuthentication: (user: CognitoUser | null) => void;
 }
 
+export interface CompareType {
+  authorization: string;
+}
+
 export interface TokenType {}
+
 export interface ButtonType {
   color?: string;
   children: React.ReactNode;

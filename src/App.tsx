@@ -4,23 +4,28 @@ import { Compare } from "./components/Compare";
 import { SignUp } from "./components/SignUp";
 import { SignIn } from "./components/SignIn";
 import { Navbar } from "./components/Navbar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CognitoUser } from "amazon-cognito-identity-js";
 import { Route, Switch } from "react-router-dom";
 
 export function App() {
   const [user, setUser] = useState<CognitoUser | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authorization, setAuthorization] = useState("");
+
+  useEffect(() => {}, []);
 
   const setAuthentication = (user: CognitoUser | null) => {
-    setUser(user);
-    if (!user) setIsAuthenticated(false);
+    if (!user) return;
     else {
+      setUser(user);
       user.getSession((err: any, session: any) => {
         if (err) setIsAuthenticated(false);
         else {
-          if (session.isValid) setIsAuthenticated(true);
-          else setIsAuthenticated(false);
+          if (session.isValid) {
+            setIsAuthenticated(true);
+            setAuthorization(session.getIdToken().getJwtToken());
+          } else setIsAuthenticated(false);
         }
       });
     }
@@ -42,7 +47,7 @@ export function App() {
             <SignUp />
           </Route>
           <Route path="/compare">
-            {isAuthenticated && <Compare />}
+            {isAuthenticated && <Compare authorization={authorization} />}
             {!isAuthenticated && (
               <SignIn setAuthentication={setAuthentication} />
             )}
