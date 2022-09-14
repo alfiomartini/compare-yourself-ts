@@ -8,15 +8,18 @@ import { useState, useEffect } from "react";
 import { CognitoUser, CognitoUserPool } from "amazon-cognito-identity-js";
 import { Route, Switch } from "react-router-dom";
 import { poolData } from "./utils";
+import { useHistory } from "react-router-dom";
 
 export function App() {
   const [user, setUser] = useState<CognitoUser | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authorization, setAuthorization] = useState("");
 
+  const location = useHistory();
+
   useEffect(() => {
-    console.log("use effect");
     const userPool = new CognitoUserPool(poolData);
+    // go to local storage
     const cognitoUser = userPool.getCurrentUser();
     if (cognitoUser !== null) {
       cognitoUser.getSession((err: any, session: any) => {
@@ -29,19 +32,28 @@ export function App() {
   }, [user]);
 
   const setAuthentication = (user: CognitoUser | null) => {
-    if (!user) return;
-    else {
-      setUser(user);
+    if (!user) {
+      setUser(null);
+      setIsAuthenticated(false);
+      setAuthorization("");
+      return;
+    }
+    user &&
       user.getSession((err: any, session: any) => {
-        if (err) setIsAuthenticated(false);
-        else {
+        if (err) {
+          setUser(null);
+          setIsAuthenticated(false);
+          setAuthorization("");
+          user.signOut();
+        } else {
           if (session.isValid) {
+            setUser(user);
             setIsAuthenticated(true);
             setAuthorization(session.getIdToken().getJwtToken());
+            location.push("/compare");
           } else setIsAuthenticated(false);
         }
       });
-    }
   };
 
   return (
@@ -65,8 +77,11 @@ export function App() {
               <SignIn setAuthentication={setAuthentication} />
             )}
           </Route>
-          <Route path="*">
-            <SignIn setAuthentication={setAuthentication} />
+          <Route exact path="/">
+            {!isAuthenticated && (
+              <SignIn setAuthentication={setAuthentication} />
+            )}
+            {isAuthenticated && <Compare authorization={authorization} />}
           </Route>
         </Switch>
       </div>
