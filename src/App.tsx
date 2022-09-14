@@ -5,15 +5,28 @@ import { SignUp } from "./components/SignUp";
 import { SignIn } from "./components/SignIn";
 import { Navbar } from "./components/Navbar";
 import { useState, useEffect } from "react";
-import { CognitoUser } from "amazon-cognito-identity-js";
+import { CognitoUser, CognitoUserPool } from "amazon-cognito-identity-js";
 import { Route, Switch } from "react-router-dom";
+import { poolData } from "./utils";
 
 export function App() {
   const [user, setUser] = useState<CognitoUser | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authorization, setAuthorization] = useState("");
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log("use effect");
+    const userPool = new CognitoUserPool(poolData);
+    const cognitoUser = userPool.getCurrentUser();
+    if (cognitoUser !== null) {
+      cognitoUser.getSession((err: any, session: any) => {
+        if (err) return;
+        setUser(user);
+        setIsAuthenticated(true);
+        setAuthorization(session.getIdToken().getJwtToken());
+      });
+    }
+  }, [user]);
 
   const setAuthentication = (user: CognitoUser | null) => {
     if (!user) return;
