@@ -15,6 +15,7 @@ export function App() {
   const [user, setUser] = useState<CognitoUser | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authorization, setAuthorization] = useState("");
+  const [username, setUsername] = useState("");
 
   const location = useHistory();
 
@@ -26,6 +27,7 @@ export function App() {
       cognitoUser.getSession((err: any, session: any) => {
         if (err) return;
         setUser(user);
+        setUsername(cognitoUser.getUsername());
         setIsAuthenticated(true);
         setAuthorization(session.getIdToken().getJwtToken());
       });
@@ -50,6 +52,7 @@ export function App() {
           if (session.isValid) {
             setUser(user);
             setIsAuthenticated(true);
+            setUsername(user.getUsername());
             setAuthorization(session.getIdToken().getJwtToken());
             location.push("/compare");
           } else setIsAuthenticated(false);
@@ -73,7 +76,9 @@ export function App() {
             <SignUp />
           </Route>
           <Route path="/compare">
-            {isAuthenticated && <NavCompare authorization={authorization} />}
+            {isAuthenticated && (
+              <NavCompare authorization={authorization} username={username} />
+            )}
             {!isAuthenticated && (
               <SignIn setAuthentication={setAuthentication} />
             )}

@@ -1,10 +1,11 @@
 import React from "react";
-import { GetType } from "../../types";
+import { GetSingleType } from "../../types";
 import "./styles.css";
 
-export const GetSingle = ({ item }: GetType) => {
+export const GetSingle = ({ item, username }: GetSingleType) => {
   return (
     <div className="yourself-data">
+      <div className="username">{username}</div>
       <div className="yourself-item">
         <span className="name">age</span>
         <span className="value">{item.age} years</span>

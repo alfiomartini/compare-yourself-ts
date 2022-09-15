@@ -6,26 +6,29 @@ import { Delete } from "../Delete";
 import { GetSingle } from "../GetSingle";
 import { GetAll } from "../GetAll";
 import { Compare } from "../Compare";
-import { NavCompareType, YourselfType } from "../../types";
+import { NavCompareType, YourselfType, SingleType } from "../../types";
 import { doFetch, GET_URL } from "../../utils";
 import "./styles.css";
 
-export const NavCompare = ({ authorization }: NavCompareType) => {
+export const NavCompare = ({ authorization, username }: NavCompareType) => {
   const [getItem, setGetItem] = useState<YourselfType | null>(null);
 
   const { url, path } = useRouteMatch();
 
-  const handleGet = async () => {
+  const handleGetSingle = async () => {
     try {
       const resp = await doFetch(GET_URL("single"), "GET", authorization);
-      const json = await resp.json();
+      const json: SingleType = await resp.json();
       console.log(json);
-      setGetItem(json);
+      if (json.statusCode === 200) setGetItem(json.body);
+      else alert(JSON.stringify(json));
     } catch (error: any) {
       console.log(error);
       alert(error.message);
     }
   };
+
+  const handleGetAll = async () => {};
 
   const handleDelete = () => {
     console.log("delete");
@@ -40,10 +43,14 @@ export const NavCompare = ({ authorization }: NavCompareType) => {
         <Link to={`${url}/add`} className="btn">
           Add
         </Link>
-        <Link to={`${url}/get-single`} onClick={handleGet} className="btn">
+        <Link
+          to={`${url}/get-single`}
+          onClick={handleGetSingle}
+          className="btn"
+        >
           Get Single
         </Link>
-        <Link to={`${url}/get-all`} onClick={handleGet} className="btn">
+        <Link to={`${url}/get-all`} onClick={handleGetAll} className="btn">
           Get All
         </Link>
         <Link to={`${url}/delete`} onClick={handleDelete} className="btn">
@@ -64,7 +71,9 @@ export const NavCompare = ({ authorization }: NavCompareType) => {
             <Add authorization={authorization}></Add>
           </Route>
           <Route path={`${path}/get-single`}>
-            {getItem && <GetSingle item={getItem}></GetSingle>}
+            {getItem && (
+              <GetSingle item={getItem} username={username}></GetSingle>
+            )}
           </Route>
           <Route path={`${path}/get-all`}>{<GetAll></GetAll>}</Route>
           <Route path={`${path}/delete`}>
