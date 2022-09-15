@@ -12,6 +12,7 @@ import "./styles.css";
 
 export const NavCompare = ({ authorization, username }: NavCompareType) => {
   const [getItem, setGetItem] = useState<YourselfType | null>(null);
+  const [getAll, setGetAll] = useState<YourselfType[]>([]);
 
   const { url, path } = useRouteMatch();
 
@@ -28,7 +29,18 @@ export const NavCompare = ({ authorization, username }: NavCompareType) => {
     }
   };
 
-  const handleGetAll = async () => {};
+  const handleGetAll = async () => {
+    try {
+      const resp = await doFetch(GET_URL("all"), "GET", authorization);
+      const json = await resp.json();
+      console.log(json);
+      if (json.statusCode === 200) setGetAll(json.body);
+      else alert(JSON.stringify(json.body));
+    } catch (error: any) {
+      console.log(error);
+      alert(error.message);
+    }
+  };
 
   const handleDelete = () => {
     console.log("delete");
@@ -75,7 +87,9 @@ export const NavCompare = ({ authorization, username }: NavCompareType) => {
               <GetSingle item={getItem} username={username}></GetSingle>
             )}
           </Route>
-          <Route path={`${path}/get-all`}>{<GetAll></GetAll>}</Route>
+          <Route path={`${path}/get-all`}>
+            {<GetAll items={getAll} username={username}></GetAll>}
+          </Route>
           <Route path={`${path}/delete`}>
             <Delete></Delete>
           </Route>

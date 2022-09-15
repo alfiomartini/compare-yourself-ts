@@ -53,6 +53,9 @@ export const Navbar = ({
           Sign Out
         </Link>
       )}
+      {isAuthenticated && user && (
+        <div className="auth-user"> {user.getUsername()}</div>
+      )}
     </div>
   );
 };

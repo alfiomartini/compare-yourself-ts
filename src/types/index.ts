@@ -35,12 +35,22 @@ export interface YourselfType {
 
 export interface GetSingleType {
   item: YourselfType;
-  username: string;
+  username?: string;
+}
+
+export interface GetAllType {
+  items: YourselfType[];
+  username?: string;
 }
 
 export interface SingleType {
   statusCode: number;
   body: YourselfType;
+}
+
+export interface UsersType {
+  statusCode: number;
+  body: YourselfType[];
 }
 
 export interface AddType {
