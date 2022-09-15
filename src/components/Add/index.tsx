@@ -2,10 +2,10 @@ import React from "react";
 import { Button } from "../Button";
 import { useState } from "react";
 import { POST_URL } from "../../utils";
-import { CompareType } from "../../types";
+import { AddType } from "../../types";
 import { doFetch } from "../../utils";
 
-export const Compare = ({ authorization }: CompareType) => {
+export const Add = ({ authorization }: AddType) => {
   const [age, setAge] = useState("");
   const [height, setHeight] = useState("");
   const [income, setIncome] = useState("");

@@ -1,8 +1,9 @@
 import React from "react";
 import "./App.css";
-import { Compare } from "./components/Compare";
+import { NavCompare } from "./components/NavCompare";
 import { SignUp } from "./components/SignUp";
 import { SignIn } from "./components/SignIn";
+import { Add } from "./components/Add";
 import { Navbar } from "./components/Navbar";
 import { useState, useEffect } from "react";
 import { CognitoUser, CognitoUserPool } from "amazon-cognito-identity-js";
@@ -72,7 +73,7 @@ export function App() {
             <SignUp />
           </Route>
           <Route path="/compare">
-            {isAuthenticated && <Compare authorization={authorization} />}
+            {isAuthenticated && <NavCompare authorization={authorization} />}
             {!isAuthenticated && (
               <SignIn setAuthentication={setAuthentication} />
             )}
@@ -81,7 +82,7 @@ export function App() {
             {!isAuthenticated && (
               <SignIn setAuthentication={setAuthentication} />
             )}
-            {isAuthenticated && <Compare authorization={authorization} />}
+            {isAuthenticated && <Add authorization={authorization} />}
           </Route>
         </Switch>
       </div>

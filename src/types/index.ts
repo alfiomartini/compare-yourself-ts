@@ -27,10 +27,13 @@ export interface SignInType {
   setAuthentication: (user: CognitoUser | null) => void;
 }
 
-export interface CompareType {
+export interface AddType {
   authorization: string;
 }
 
+export interface NavCompareType {
+  authorization: string;
+}
 export interface TokenType {}
 
 export interface ButtonType {

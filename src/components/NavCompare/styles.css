@@ -1,0 +1,26 @@
+.nav-compare {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.nav-compare .btn {
+  width: 140px;
+  padding: 15px 20px;
+  background-color: #303030;
+  color: whitesmoke;
+  text-decoration: none;
+}
+
+.nav-compare .btn:hover {
+  color: lightgreen;
+}
+
+.nav-compare .btn.selected {
+  background-color: black;
+}
+
+.nav-compare-page {
+  margin-top: 40px;
+}

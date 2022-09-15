@@ -6,6 +6,10 @@ export const poolData = {
 export const POST_URL =
   "https://qsz374wb45.execute-api.sa-east-1.amazonaws.com/dev/compare-yourself";
 
+export const GET_URL = (type: string) => {
+  return `https://qsz374wb45.execute-api.sa-east-1.amazonaws.com/dev/compare-yourself/${type}`;
+};
+
 export async function doFetch(
   url: string,
   method: "GET" | "POST" | "DELETE",
