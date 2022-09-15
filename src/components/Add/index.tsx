@@ -39,8 +39,10 @@ export const Add = ({ authorization }: AddType) => {
       const resp = await doFetch(POST_URL, "POST", authorization, body);
       const json = await resp.json();
       console.log(json);
-    } catch (error) {
+      alert(json);
+    } catch (error: any) {
       console.log(error);
+      alert(error.message);
     }
 
     // fetch(POST_URL, {

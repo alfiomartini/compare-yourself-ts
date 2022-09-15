@@ -1,13 +1,4 @@
 {
-  "cSpell.words": [
-    "alfio",
-    "signin",
-    "signout",
-    "signup"
-  ],
-  "cSpell.ignoreWords": [
-    "mbqtuk",
-    "ncgj",
-    "qhdd"
-  ]
+  "cSpell.words": ["alfio", "boto", "signin", "signout", "signup"],
+  "cSpell.ignoreWords": ["mbqtuk", "ncgj", "qhdd"]
 }

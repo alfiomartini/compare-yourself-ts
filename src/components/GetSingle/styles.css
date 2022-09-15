@@ -1,0 +1,22 @@
+.yourself-data {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 40px;
+  font-size: large;
+  gap: 10px;
+}
+
+.yourself-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 10px 20px;
+  background-color: lightcoral;
+  border-radius: 10px;
+}
+
+.yourself-item .name {
+  text-transform: capitalize;
+}

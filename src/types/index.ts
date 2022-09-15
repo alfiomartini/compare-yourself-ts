@@ -27,6 +27,16 @@ export interface SignInType {
   setAuthentication: (user: CognitoUser | null) => void;
 }
 
+export interface GetType {
+  item: YourselfType;
+}
+
+export interface YourselfType {
+  age: number;
+  height: number;
+  income: number;
+}
+
 export interface AddType {
   authorization: string;
 }
