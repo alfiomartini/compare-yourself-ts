@@ -4,11 +4,14 @@ import { useState } from "react";
 import { POST_URL } from "../../utils";
 import { AddType } from "../../types";
 import { doFetch } from "../../utils";
+import { useHistory } from "react-router-dom";
 
 export const Add = ({ authorization }: AddType) => {
   const [age, setAge] = useState("");
   const [height, setHeight] = useState("");
   const [income, setIncome] = useState("");
+
+  const history = useHistory();
 
   const clear = () => {
     setAge("");
@@ -28,7 +31,6 @@ export const Add = ({ authorization }: AddType) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("authorization", authorization);
     const body = {
       age: parseInt(age),
       height: parseInt(height),
@@ -44,19 +46,8 @@ export const Add = ({ authorization }: AddType) => {
       console.log(error);
       alert(error.message);
     }
-
-    // fetch(POST_URL, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: authorization,
-    //   },
-    //   body: JSON.stringify(body),
-    // })
-    //   .then((resp) => resp.json())
-    //   .then((json) => console.log(json))
-    //   .catch((error) => console.log(error.message));
     clear();
+    history.push("/compare");
   };
 
   return (

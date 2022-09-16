@@ -14,7 +14,7 @@ export const Navbar = ({
 
   return (
     <div className="navbar">
-      {toolTip && <ReactTooltip place="bottom" />}
+      {toolTip && <ReactTooltip place="bottom" effect="solid" />}
       <div
         className="logo"
         data-tip="Compare yourself: age, height, income"

@@ -38,6 +38,10 @@ export interface ErrorMessage {
   body: string;
 }
 
+export interface DeleteType {
+  message: string;
+}
+
 export interface CompareAllType {
   users: YourselfType[];
   currentUser: YourselfType;

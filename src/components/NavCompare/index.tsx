@@ -12,13 +12,14 @@ import {
   SingleType,
   CompareAllType,
 } from "../../types";
-import { doFetch, GET_URL } from "../../utils";
+import { doFetch, GET_URL, DELETE_URL } from "../../utils";
 import "./styles.css";
 
 export const NavCompare = ({ authorization, username }: NavCompareType) => {
   const [getItem, setGetItem] = useState<YourselfType | null>(null);
   const [getAll, setGetAll] = useState<YourselfType[]>([]);
   const [compareAll, setCompareAll] = useState<CompareAllType | null>(null);
+  const [delItem, setDelItem] = useState("");
 
   const { url, path } = useRouteMatch();
 
@@ -28,7 +29,7 @@ export const NavCompare = ({ authorization, username }: NavCompareType) => {
       const json: SingleType = await resp.json();
       console.log(json);
       if (json.statusCode === 200) setGetItem(json.body);
-      else alert(JSON.stringify(json));
+      else alert(JSON.stringify(json.body));
     } catch (error: any) {
       console.log(error);
       alert(error.message);
@@ -51,9 +52,21 @@ export const NavCompare = ({ authorization, username }: NavCompareType) => {
     }
   };
 
-  const handleDelete = () => {
-    console.log("delete");
+  const handleDelete = async () => {
+    try {
+      const resp = await doFetch(DELETE_URL, "DELETE", authorization);
+      const json = await resp.json();
+      console.log(json);
+      if (json.statusCode === 200) {
+        console.log(json.body);
+        setDelItem(json.body);
+      } else alert(JSON.stringify(json.body));
+    } catch (error: any) {
+      console.log(error);
+      alert(error.message);
+    }
   };
+
   const handleCompare = async () => {
     try {
       const resp_all = await doFetch(GET_URL("all"), "GET", authorization);
@@ -114,7 +127,7 @@ export const NavCompare = ({ authorization, username }: NavCompareType) => {
             {<GetAll items={getAll} username={username}></GetAll>}
           </Route>
           <Route path={`${path}/delete`}>
-            <Delete></Delete>
+            {delItem && <Delete message={delItem}></Delete>}
           </Route>
           <Route path={`${path}/compare-yourself`}>
             {compareAll && (

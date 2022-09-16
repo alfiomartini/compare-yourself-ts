@@ -1,0 +1,8 @@
+.delete {
+  display: flex;
+  justify-content: center;
+  padding: 10px 20px;
+  background-color: lightcoral;
+  border-radius: 10px;
+  margin-top: 40px;
+}

@@ -90,7 +90,7 @@ export const SignUp = () => {
   return (
     <>
       <form className="form-group" onSubmit={handleSubmit}>
-        {toolTip && <ReactTooltip effect="solid" />}
+        {toolTip && <ReactTooltip effect="solid" place="bottom" />}
         <div className="form-control">
           <label htmlFor="username">Username</label>
           <input
