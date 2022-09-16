@@ -33,6 +33,21 @@ export interface YourselfType {
   income: number;
 }
 
+export interface ErrorMessage {
+  statusCode: number;
+  body: string;
+}
+
+export interface CompareAllType {
+  users: YourselfType[];
+  currentUser: YourselfType;
+}
+
+export interface CompareType {
+  username: string;
+  compareAll: CompareAllType;
+}
+
 export interface GetSingleType {
   item: YourselfType;
   username?: string;

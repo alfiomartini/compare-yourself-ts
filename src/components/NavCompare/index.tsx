@@ -6,13 +6,19 @@ import { Delete } from "../Delete";
 import { GetSingle } from "../GetSingle";
 import { GetAll } from "../GetAll";
 import { Compare } from "../Compare";
-import { NavCompareType, YourselfType, SingleType } from "../../types";
+import {
+  NavCompareType,
+  YourselfType,
+  SingleType,
+  CompareAllType,
+} from "../../types";
 import { doFetch, GET_URL } from "../../utils";
 import "./styles.css";
 
 export const NavCompare = ({ authorization, username }: NavCompareType) => {
   const [getItem, setGetItem] = useState<YourselfType | null>(null);
   const [getAll, setGetAll] = useState<YourselfType[]>([]);
+  const [compareAll, setCompareAll] = useState<CompareAllType | null>(null);
 
   const { url, path } = useRouteMatch();
 
@@ -32,10 +38,13 @@ export const NavCompare = ({ authorization, username }: NavCompareType) => {
   const handleGetAll = async () => {
     try {
       const resp = await doFetch(GET_URL("all"), "GET", authorization);
-      const json = await resp.json();
+      const json: any = await resp.json();
       console.log(json);
-      if (json.statusCode === 200) setGetAll(json.body);
-      else alert(JSON.stringify(json.body));
+      if (json.statusCode === 200) {
+        setGetAll(json.body);
+      } else {
+        alert(JSON.stringify(json.body));
+      }
     } catch (error: any) {
       console.log(error);
       alert(error.message);
@@ -45,8 +54,22 @@ export const NavCompare = ({ authorization, username }: NavCompareType) => {
   const handleDelete = () => {
     console.log("delete");
   };
-  const handleCompare = () => {
-    console.log("compare yourself");
+  const handleCompare = async () => {
+    try {
+      const resp_all = await doFetch(GET_URL("all"), "GET", authorization);
+      const json_all = await resp_all.json();
+      const resp_single = await doFetch(
+        GET_URL("single"),
+        "GET",
+        authorization
+      );
+      const json_single = await resp_single.json();
+      console.log(json_all, json_single);
+      setCompareAll({ users: json_all.body, currentUser: json_single.body });
+    } catch (error: any) {
+      console.log(error);
+      alert(error.message);
+    }
   };
 
   return (
@@ -94,7 +117,9 @@ export const NavCompare = ({ authorization, username }: NavCompareType) => {
             <Delete></Delete>
           </Route>
           <Route path={`${path}/compare-yourself`}>
-            <Compare></Compare>
+            {compareAll && (
+              <Compare compareAll={compareAll} username={username}></Compare>
+            )}
           </Route>
         </Switch>
       </div>
